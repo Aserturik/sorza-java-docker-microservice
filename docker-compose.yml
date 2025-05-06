@@ -62,5 +62,5 @@ volumes:
 
 networks:
   default:
-    external: true
+    external: false
     name: bankingNetwork
