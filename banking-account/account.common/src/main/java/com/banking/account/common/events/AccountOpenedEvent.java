@@ -14,6 +14,9 @@ import java.util.Date;
 @AllArgsConstructor
 @SuperBuilder
 public class AccountOpenedEvent extends BaseEvent {
+    public AccountOpenedEvent(String id, String accountHolder2, double openingBalance2, Date date) {
+        //TODO Auto-generated constructor stub
+    }
     private String accountHolder;
     private AccountType accountType;
     private Date createdDate;
