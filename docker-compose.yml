@@ -8,12 +8,14 @@ services:
       - zookeeper_data:/bitnami
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - default
 
   kafka:
     image: bitnami/kafka
-    restart: always
     ports:
       - "9092:9092"
+    restart: always
     volumes:
       - kafka_data:/bitnami
     environment:
@@ -23,32 +25,38 @@ services:
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
     depends_on:
       - zookeeper
+    networks:
+      - default
 
   mysql:
     image: mysql:latest
     restart: always
+    environment:
+      MYSQL_DATABASE: db
+      MYSQL_USER: jeol_uptc
+      MYSQL_PASSWORD: jeol_uptc2020$$
+      MYSQL_ROOT_PASSWORD: jeol_uptc2020$$
     ports:
       - "3306:3306"
     expose:
       - "3306"
-    environment:
-      MYSQL_DATABASE: 'db'
-      MYSQL_USER: 'ta-uptc'
-      MYSQL_PASSWORD: 'ta_uptc2025$'
-      MYSQL_ROOT_PASSWORD: 'ta_uptc2025$'
     volumes:
       - mysql_data:/var/lib/mysql
+    networks:
+      - default
 
   mongodb:
     image: mongo:latest
     restart: always
-    ports:
-      - "27017:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: "ta_uptc"
-      MONGO_INITDB_ROOT_PASSWORD: "ta_uptc2020$$"
+      MONGO_INITDB_ROOT_USERNAME: jeol_uptc
+      MONGO_INITDB_ROOT_PASSWORD: jeol_uptc2020$$
+    ports:
+      - 27017:27017
     volumes:
       - mongodb_data:/data/db
+    networks:
+      - default
 
 volumes:
   zookeeper_data:
@@ -62,5 +70,5 @@ volumes:
 
 networks:
   default:
-    external: false
     name: bankingNetwork
+    external: false
